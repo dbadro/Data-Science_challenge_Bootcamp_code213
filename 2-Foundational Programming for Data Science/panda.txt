@@ -1,0 +1,215 @@
+# Module: Pandas Assignments
+## Lesson: Pandas
+### Assignment 1: DataFrame Creation and Indexing
+
+1. Create a Pandas DataFrame with 4 columns and 6 rows filled with random integers. Set the index to be the first column.
+2. Create a Pandas DataFrame with columns 'A', 'B', 'C' and index 'X', 'Y', 'Z'. Fill the DataFrame with random integers and access the element at row 'Y' and column 'B'.
+
+### Assignment 2: DataFrame Operations
+
+1. Create a Pandas DataFrame with 3 columns and 5 rows filled with random integers. Add a new column that is the product of the first two columns.
+2. Create a Pandas DataFrame with 3 columns and 4 rows filled with random integers. Compute the row-wise and column-wise sum.
+
+### Assignment 3: Data Cleaning
+
+1. Create a Pandas DataFrame with 3 columns and 5 rows filled with random integers. Introduce some NaN values. Fill the NaN values with the mean of the respective columns.
+2. Create a Pandas DataFrame with 4 columns and 6 rows filled with random integers. Introduce some NaN values. Drop the rows with any NaN values.
+
+### Assignment 4: Data Aggregation
+
+1. Create a Pandas DataFrame with 2 columns: 'Category' and 'Value'. Fill the 'Category' column with random categories ('A', 'B', 'C') and the 'Value' column with random integers. Group the DataFrame by 'Category' and compute the sum and mean of 'Value' for each category.
+2. Create a Pandas DataFrame with 3 columns: 'Product', 'Category', and 'Sales'. Fill the DataFrame with random data. Group the DataFrame by 'Category' and compute the total sales for each category.
+
+### Assignment 5: Merging DataFrames
+
+1. Create two Pandas DataFrames with a common column. Merge the DataFrames using the common column.
+2. Create two Pandas DataFrames with different columns. Concatenate the DataFrames along the rows and along the columns.
+
+### Assignment 6: Time Series Analysis
+
+1. Create a Pandas DataFrame with a datetime index and one column filled with random integers. Resample the DataFrame to compute the monthly mean of the values.
+2. Create a Pandas DataFrame with a datetime index ranging from '2021-01-01' to '2021-12-31' and one column filled with random integers. Compute the rolling mean with a window of 7 days.
+
+### Assignment 7: MultiIndex DataFrame
+
+1. Create a Pandas DataFrame with a MultiIndex (hierarchical index). Perform some basic indexing and slicing operations on the MultiIndex DataFrame.
+2. Create a Pandas DataFrame with MultiIndex consisting of 'Category' and 'SubCategory'. Fill the DataFrame with random data and compute the sum of values for each 'Category' and 'SubCategory'.
+
+### Assignment 8: Pivot Tables
+
+1. Create a Pandas DataFrame with columns 'Date', 'Category', and 'Value'. Create a pivot table to compute the sum of 'Value' for each 'Category' by 'Date'.
+2. Create a Pandas DataFrame with columns 'Year', 'Quarter', and 'Revenue'. Create a pivot table to compute the mean 'Revenue' for each 'Quarter' by 'Year'.
+
+### Assignment 9: Applying Functions
+
+1. Create a Pandas DataFrame with 3 columns and 5 rows filled with random integers. Apply a function that doubles the values of the DataFrame.
+2. Create a Pandas DataFrame with 3 columns and 6 rows filled with random integers. Apply a lambda function to create a new column that is the sum of the existing columns.
+
+### Assignment 10: Working with Text Data
+
+1. Create a Pandas Series with 5 random text strings. Convert all the strings to uppercase.
+2. Create a Pandas Series with 5 random text strings. Extract the first three characters of each string.
+
+
+import pandas as pd
+import numpy as np 
+df = pd.DataFrame(np.random.randint(0,21, size=(6,4)),columns=['A','B','C','D'])
+df
+
+
+import pandas as pd
+import numpy as np
+df = pd.DataFrame(np.random.randint(0,21, size=(6,4)),columns=['A','B','C','D'])
+
+df.iloc[0,0]=np.nan
+df.iloc[4,2]=np.nan
+df.iloc[4,3]=np.nan
+df.dropna(inplace=True)
+
+df
+
+
+
+
+import numpy as np 
+import pandas as pd 
+data={
+    ""
+}
+
+import pandas as pd
+import numpy as np
+
+# Create a sample DataFrame with 'Category' and 'Value' columns as required
+data = {
+    'Category': np.random.choice(['A', 'B', 'C'], size=10),
+    'Value': np.random.randint(1, 100, size=10)
+}
+df = pd.DataFrame(data)
+
+grouped = df.groupby('Category')['Value'].agg(['sum', 'mean'])
+print(grouped)
+
+import pandas as pd
+import numpy as np
+df1=pd.DataFrame({
+    'Key1':['A','B','C'],
+    'Value1':np.random.randint(1,10,size=3)
+})
+print(df1)
+df2=pd.DataFrame({
+    'Key2':['A','B','C'],
+    'Value2':np.random.randint(1,10,size=3)
+})
+print(df2)
+merged=pd.merge(df1,df2,left_on='Key1',right_on='Key2')
+print(merged)
+
+df1=pd.DataFrame({
+    'Key1':np.random.choice(['A','B','C'],size=10),
+    'Value1':np.random.randint(1,10,size=10)
+})
+print(df1)
+df2=pd.DataFrame({
+    'Key2':np.random.choice(['D','E','F'],size=10),
+    'Value2':np.random.randint(1,10,size=10)
+})
+print(df2)
+concat_rows=pd.concat([df1,df2],axis=0,ignore_index=True)
+concat_cols=pd.concat([df1,df2],axis=1,ignore_index=True)
+print(concat_rows)
+print(concat_cols)
+
+df=pd.DataFrame({
+    'Date':pd.date_range(start='2026-01-01',end='2026-12-31'),
+    'Category':np.random.choice(['A','B','C'],size=len(df['Date'])),
+    'Value':np.random.randint(1,10,size=len(df['Date']))
+})
+print(df)
+pivot=pd.pivot_table(df,values='Value',index='Date',columns='Category',aggfunc='sum')
+print(pivot)
+
+df=pd.DataFrame({
+    'Year':np.random.choice([2004,2005,2006],size=12),
+    'Quarter':np.random.choice(['Q1','Q2','Q3'],size=12),
+    'Revenue':np.random.randint(1,40,size=12)})
+print(df)
+pivot=df.pivot_table(values='Revenue',index='Year',columns='Quarter',aggfunc='mean')
+print(pivot)
+
+
+
+df=pd.DataFrame({'A':[1,2,3],'B':[4,5,6]})
+df["A_squared"]=df['A'].apply(lambda x:x**2)
+df
+
+df=pd.DataFrame(np.random.randint(1,21,size=(5,3)),columns=["A","B","C"])
+print("Data Frame \n")
+print(df)
+double=df.apply(lambda x:2*x)
+print(double)
+
+Create a Pandas DataFrame with 3 columns and 6 rows filled with random integers. Apply a lambda function to create a new column that is the sum of the existing columns.
+
+df=pd.DataFrame(np.random.randint(1,21,size=(6,3)),columns=["A","B","C"])
+print("Data Frame \n")
+print(df)
+df['sum']=df.apply(lambda row:row.sum(),axis=1)
+print(df)
+
+Create a Pandas Series with 5 random text strings. Convert all the strings to uppercase.
+
+Create a Pandas Series with 5 random text strings. Extract the first three characters of each string.
+
+text=pd.Series(['Siham','Ihsanne','Sara','Badro','Cherifa'])
+print(text)
+
+text_data=text.str.upper()
+print(text_data)
+
+
+text_data=text.str.slice(0,3)
+print(text_data)
+text_data.str[:3]
+
+tab=[[1,1,2,2],["fiha","non","fiha","non"]]
+index=pd.MultiIndex.from_arrays(tab,names=("number"," fiha wla lala"))
+df=pd.DataFrame(np.random.randint(1,10,size=(4,2)), index=index, columns=["A","B"])
+
+print(df)
+
+df.loc[(1,"fiha")]
+
+tabe=[["appareils","outils","appareils","outils"],["pc","cable","pc","cable"]]
+index=pd.MultiIndex.from_arrays(tabe,names=("Category"," sous Category"))
+dfe=pd.DataFrame(np.random.randint(1,10,size=(4,2)), index=index, columns=["A","B"])
+
+dfe
+
+dfe=dfe.groupby(["Category"," sous Category" ]).sum()
+dfe
+
+
+
+Create a Pandas DataFrame with a datetime index and one column filled with random integers. Resample the DataFrame to compute the monthly mean of the values.
+
+
+
+date_rng=pd.date_range(start='2026-01-01',end='2026-12-31')
+df=pd.DataFrame(pd.Series(np.random.randint(1,21,size=len(date_rng)),index=date_rng),columns=["Stock Price"])
+print("Original Data Frame: ")
+df
+
+monthly_mean = df.resample('M').mean()
+print("Monthly Mean:")
+print(monthly_mean)
+
+
+
+
+
+
+
+Create a Pandas DataFrame with a datetime index ranging from '2021-01-01' to '2021-12-31' and one column filled with random integers. Compute the rolling mean with a window of 7 days.
+
+df.rolling(window=2).mean()
